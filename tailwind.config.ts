@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -61,7 +62,30 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				gemstone: {
+					turquoise: 'hsl(var(--gemstone-turquoise))',
+					amber: 'hsl(var(--gemstone-amber))',
+					onyx: 'hsl(var(--gemstone-onyx))',
+					pearl: 'hsl(var(--gemstone-pearl))',
+					coral: 'hsl(var(--gemstone-coral))'
 				}
+			},
+			backgroundImage: {
+				'gradient-sunset': 'var(--gradient-sunset)',
+				'gradient-ocean': 'var(--gradient-ocean)',
+				'gradient-earth': 'var(--gradient-earth)',
+				'gradient-mystic': 'var(--gradient-mystic)'
+			},
+			boxShadow: {
+				'soft': 'var(--shadow-soft)',
+				'medium': 'var(--shadow-medium)',
+				'glow': 'var(--shadow-glow)',
+				'golden': 'var(--shadow-golden)'
+			},
+			transitionTimingFunction: {
+				'smooth': 'var(--transition-smooth)',
+				'spring': 'var(--transition-spring)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
