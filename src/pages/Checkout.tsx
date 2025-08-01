@@ -79,45 +79,66 @@ const Checkout = () => {
         throw orderError;
       }
 
-      if (formData.paymentMethod === 'esewa') {
-        // Redirect to eSewa payment
-        const esewaPayment = {
-          amt: getTotalPrice(),
-          pdc: 0,
-          psc: 0,
-          txAmt: 0,
-          tAmt: getTotalPrice(),
-          pid: order.id,
-          scd: 'EPAYTEST',
-          su: `${window.location.origin}/payment-success?oid=${order.id}`,
-          fu: `${window.location.origin}/payment-failed?oid=${order.id}`
-        };
+        if (formData.paymentMethod === 'esewa') {
+          // Use edge function for eSewa payment
+          const orderData = {
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            items: items,
+            totalPrice: totalWithShipping
+          };
 
-        // Create form and submit to eSewa
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form';
+          const { data, error } = await supabase.functions.invoke('create-esewa-payment', {
+            body: { orderData }
+          });
 
-        Object.entries(esewaPayment).forEach(([key, value]) => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = value.toString();
-          form.appendChild(input);
-        });
+          if (error) {
+            console.error('Payment creation error:', error);
+            throw new Error('Failed to create payment');
+          }
 
-        document.body.appendChild(form);
-        form.submit();
-      } else {
-        // Handle COD (Cash on Delivery)
-        toast({
-          title: "Order placed successfully!",
-          description: "Your order has been placed. You can pay when the item is delivered.",
-        });
-        
-        clearCart();
-        navigate('/orders');
-      }
+          if (data.success) {
+            // Store order ID for payment verification
+            localStorage.setItem('pending_order_id', data.orderId);
+            
+            // Create form and redirect to eSewa
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = data.esewaUrl;
+
+            Object.entries(data.esewaData).forEach(([key, value]) => {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = key;
+              input.value = value.toString();
+              form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+          } else {
+            throw new Error(data.error || 'Payment creation failed');
+          }
+        } else {
+          // Handle COD (Cash on Delivery) - update the existing order
+          const { error: updateError } = await supabase
+            .from('orders')
+            .update({ status: 'processing' })
+            .eq('id', order.id);
+
+          if (updateError) {
+            throw updateError;
+          }
+
+          toast({
+            title: "Order placed successfully!",
+            description: "Your order has been placed. You can pay when the item is delivered.",
+          });
+          
+          clearCart();
+          navigate('/profile');
+        }
     } catch (error: any) {
       console.error('Error creating order:', error);
       toast({
