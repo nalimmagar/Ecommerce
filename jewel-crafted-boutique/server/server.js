@@ -66,4 +66,9 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
+const esewaRouter = require("./routes/shop/esewa-routes");
+app.use("/api/esewa", esewaRouter);
+
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
+
+
