@@ -6,7 +6,7 @@ function AddProduct() {
     title: '',
     description: '',
     category: '',
-    brand: '',
+    // brand: '',
     price: '',
     salePrice: '',
     totalStock: '',

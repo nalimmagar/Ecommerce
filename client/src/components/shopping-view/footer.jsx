@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-12 mt-10">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Column 1: Brand */}
+        {/* Column 1: Brand
         <div>
           <h2 className="text-xl font-bold mb-2">Jewel Crafted</h2>
           <p className="text-sm mb-4">
@@ -22,7 +22,7 @@ const Footer = () => {
               <Twitter className="w-5 h-5 hover:text-cyan-400" />
             </a>
           </div>
-        </div>
+        </div> */}
 
         {/* Column 2: Quick Links */}
         <div>
