@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import Footer from "@/components/shopping-view/footer";
+import NewsletterSection from "@/components/shopping-view/newsletter";
 import bannerOne from "../../assets/banner-1.webp";
 import bannerTwo from "../../assets/banner-2.webp";
 import bannerThree from "../../assets/banner-3.webp";
@@ -34,9 +36,9 @@ import { getFeatureImages } from "@/store/common-slice";
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
   { id: "women", label: "Women", icon: CloudLightning },
-  { id: "kids", label: "Kids", icon: BabyIcon },
-  { id: "accessories", label: "Accessories", icon: WatchIcon },
-  { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
+  // { id: "kids", label: "Kids", icon: BabyIcon },
+  // { id: "accessories", label: "Accessories", icon: WatchIcon },
+  // { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
 ];
 
 const brandsWithIcon = [
@@ -162,29 +164,32 @@ function ShoppingHome() {
         </Button>
       </div>
       <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Shop by category
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categoriesWithIcon.map((categoryItem) => (
-              <Card
-                onClick={() =>
-                  handleNavigateToListingPage(categoryItem, "category")
-                }
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-              >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{categoryItem.label}</span>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+  <div className="container mx-auto px-4">
+    <h2 className="text-3xl font-bold text-center mb-8">Shop by category</h2>
+    
+    <div className="flex justify-center">
+      <div className="grid grid-cols-2 gap-4 max-w-md">
+        {categoriesWithIcon.map((categoryItem) => (
+          <Card
+            key={categoryItem.id}
+            onClick={() =>
+              handleNavigateToListingPage(categoryItem, "category")
+            }
+            className="cursor-pointer hover:shadow-lg transition-shadow"
+          >
+            <CardContent className="flex flex-col items-center justify-center p-6">
+              <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
+              <span className="font-bold">{categoryItem.label}</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-      <section className="py-12 bg-gray-50">
+
+      {/* <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
           <div className="flex justify-center">
@@ -203,7 +208,7 @@ function ShoppingHome() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       
 
@@ -230,6 +235,9 @@ function ShoppingHome() {
         setOpen={setOpenDetailsDialog}
         productDetails={productDetails}
       />
+     
+      <NewsletterSection />
+      <Footer />
     </div>
   );
 }
